@@ -1,0 +1,26 @@
+plugins {
+	id "java"
+    id "com.softwareag.scriptpack"
+}
+
+task copyCurrentJvmToPayload(type: Copy) {
+    from System.getProperty("java.home")
+    into "${project.buildDir}/payload/jvm"
+}
+
+task copyLibsToPayload(type: Copy) {
+    from "${project.buildDir}/libs"
+    into "${project.buildDir}/payload/libs"
+}
+
+task zipPayload(type: Zip) {
+    from "${project.buildDir}/payload"
+    archiveFileName = "payload.zip"
+}
+
+generateScriptPack {
+	inputScript = file("launcher.bat")
+    inputArchive = file("${project.buildDir}/distributions/payload.zip")
+    windows = true
+	output = file("${project.buildDir}/distributions/scriptpack.bat")
+}
