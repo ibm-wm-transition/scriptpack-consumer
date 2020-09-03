@@ -3,15 +3,28 @@
 This is a fully functional example project accompanying the [ScriptPack](https://github.com/SoftwareAG/scriptpack) project.
 
 To try the example clone this repo and run:
+On Windows
 
 ```
-gradle clean build copyCurrentJvmToPayload copyLibsToPayload zipPayload generateScriptPack
+gradle clean build copyCurrentJvmToPayload copyLibsToPayload zipPayload generateScriptPackWin
 ```
 
-Then go to build/distributions and run:
+On POSIX
+
+```
+gradle clean build copyCurrentJvmToPayload copyLibsToPayload targzPayload generateScriptPackPosix
+```
+
+Then go to build/distributions and run (on Windows):
 
 ```
 scriptpack -d C:\myapp --internal-skip-privilege-check
+```
+
+Or (on POSIX):
+
+```
+./scriptpack.sh -d ~/myapp
 ```
 
 ***

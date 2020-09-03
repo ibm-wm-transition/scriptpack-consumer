@@ -1,5 +1,5 @@
 plugins {
-	id "java"
+    id "java"
     id "com.softwareag.scriptpack"
 }
 
@@ -18,9 +18,23 @@ task zipPayload(type: Zip) {
     archiveFileName = "payload.zip"
 }
 
-generateScriptPack {
-	inputScript = file("launcher.bat")
+task targzPayload(type: Tar) {
+    from "${project.buildDir}/payload"
+    archiveFileName = "payload.tar.gz"
+    compression = Compression.GZIP
+}
+
+import com.softwareag.scriptpack.plugin.GenerateScriptPackTask
+
+task generateScriptPackWin(type: GenerateScriptPackTask) {
+    inputScript = file("launcher.bat")
     inputArchive = file("${project.buildDir}/distributions/payload.zip")
     windows = true
-	output = file("${project.buildDir}/distributions/scriptpack.bat")
+    output = file("${project.buildDir}/distributions/scriptpack.bat")
+}
+
+task generateScriptPackPosix(type: GenerateScriptPackTask) {
+    inputScript = file("launcher.sh")
+    inputArchive = file("${project.buildDir}/distributions/payload.tar.gz")
+    output = file("${project.buildDir}/distributions/scriptpack.sh")
 }
